@@ -1,0 +1,564 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>PGmanager</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="{%static 'fonts/icomoon/style.css' %}">
+
+  <link rel="stylesheet" href="{%static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{%static 'css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{%static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{%static 'css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{%static 'css/owl.theme.default.min.css' %}">
+
+  <link rel="stylesheet" href="{%static 'css/jquery.fancybox.min.css' %}">
+
+  <link rel="stylesheet" href="{%static 'css/bootstrap-datepicker.css' %}">
+
+  <link rel="stylesheet" href="{%static 'fonts/flaticon/font/flaticon.css' %}">
+
+  <link rel="stylesheet" href="{%static 'css/aos.css' %}">
+  <link href="{%static 'css/jquery.mb.YTPlayer.min.css' %}" media="all" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{%static 'styles.css' %}">
+  <link rel="stylesheet" href="{%static 'css/style.css' %}">
+
+
+
+</head>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+
+
+    <header class="site-navbar py-4 site-navbar-target" role="banner">
+
+      <div class="container">
+        <div class="d-flex align-items-center">
+          <div class="site-logo">
+            <a href="/home/" class="d-block">
+              &nbsp PGmanager
+            </a>
+          </div>
+          <div class="mr-auto">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li>
+                  <a href="/home/" class="nav-link text-left">Home</a>
+                </li>
+                <li>
+                  <a href="/about/" class="nav-link text-left">About</a>
+                </li>
+                <li class="has-children">
+                  <a href="/rentpg/" class="nav-link text-left">Rent PG</a>
+                  <ul class="dropdown">
+                    <li><a href="/search/">Search Paying Guest</a></li>
+                    <li><a href="/crudblog/">CRUD Blog</a></li>
+                  </ul>
+                </li>
+                <li class="has-children">
+                  <a href="/listpg/" class="nav-link text-left">List Your PG</a>
+                  <ul class="dropdown">
+                    <li><a href="/crudpg/">CRUD Paying Guest</a></li>
+                    <li><a href="/crudadv/">CRUD Advertisements</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="/blogadv/" class="nav-link text-left">Ads & Blogs</a>
+                </li>
+                
+                
+                <li>
+                  <a href="/contact/" class="nav-link text-left">ContactUs</a>
+                </li>
+              </ul>                                                                
+            </nav>
+
+          </div>
+          <div class="ml-auto">
+
+            <div class="social-wrap">
+            {% if user.is_authenticated %}
+            <a href="profile/" class="text-white">Profile</a>&nbsp;&nbsp;
+              <a href="/logout/" class="text-white">Logout</a>    
+            {% else %}
+            <a href="/signup/" class="text-white">Signup</a>&nbsp;&nbsp;
+              <a href="/login/" class="text-white">Login</a>
+            {% endif %}
+              
+
+             
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </header>
+
+
+      {% comment %} <div class="hero-slide owl-carousel site-blocks-cover"> {% endcomment %}
+        <div class="intro-section" style="background-image: url('{%static 'images/Background.jpg' %}');">
+          <div class="container">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-md-7 mx-auto text-center" data-aos="fade-up">
+                <h1>The Best Place for paying guest services</h1>
+                <br>
+                <p>Thousands of PG services over prime cities in india</p>
+                <p><a href="/search/" class="btn btn-primary">Search PG</a>
+              </div>
+            </div>
+          </div>
+        </div>      {% comment %} </div> {% endcomment %}
+
+
+{% if user.is_authenticated %}
+<form action="/crudpg/" method="POST" style="border:1px solid #ccc">
+    {% csrf_token %}
+    <div class="container">
+    <h1>{{user.username}}</h1>
+    <p>Please Select from following options.</p>
+	<label for="id">Choose relavant option:</label>
+<select id="id" name="id">
+  <option value="0">- - - - - - - -</option>
+  <option value="1">Show PG List</option>
+  <option value="2">Create New PG</option>
+  <option value="3">Update PG</option>
+  <option value="4">Delete PG Record</option>
+</select>
+<div class="clearfix">
+      <button type="reset" class="cancelbtn" id="">Reset</button>
+      <button type="submit" class="signupbtn">Enter</button>
+    </div>
+	</div>
+</form>
+<hr>
+{% if id == 0 %}
+<hr>
+<center><h1>select option to get information....<h1><center>
+<br/>
+<hr>
+{% endif %}
+{% if id == 1 %}
+<hr>
+<center><h1>Your PG<h1><center>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Owner Name</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Personal Email</th>
+      <th scope="col">Unique ID</th>
+      <th scope="col">Address</th>
+      <th scope="col">City</th>
+      <th scope="col">Taluka</th>
+      <th scope="col">District</th>
+      <th scope="col">State</th>
+      <th scope="col">Pincode</th>
+      <th scope="col">Description</th>
+      <th scope="col">Pictures Link</th>
+      <th scope="col">BHK</th>
+      <th scope="col">No. of People</th>
+      <th scope="col">Vaccancies</th>
+      <th scope="col">Furnished</th>
+      <th scope="col">Accomodation</th>
+      <th scope="col">Bachelor</th>
+      <th scope="col">Ac</th>
+      <th scope="col">Geyser</th>
+      <th scope="col">Smoking</th>
+      <th scope="col">drink</th>
+      <th scope="col">Veg/NonVeg</th>
+      <th scope="col">Washing Machine</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for n in n %}
+    <tr>
+      <td>{{n.owner}}</td>
+      <td>{{n.phoneno}}</td>
+      <td>{{n.pemail}}</td>
+      <td>{{n.uid}}</td>
+      <td>{{n.address}}</td>
+      <td>{{n.city}}</td>
+      <td>{{n.taluka}}</td>
+      <td>{{n.district}}</td>
+      <td>{{n.state}}</td>
+      <td>{{n.pincode}}</td>
+      <td>{{n.desc}}</td>
+      <td>{{n.link}}</td>
+      <td>{{n.bhk}}</td>
+      <td>{{n.nopeople}}</td>
+      <td>{{n.vacancies}}</td>
+      <td>{{n.furnished}}</td>
+      <td>{{n.accomodation}}</td>
+      <td>{{n.bachelor}}</td>
+      <td>{{n.ac}}</td>
+      <td>{{n.geyser}}</td>
+      <td>{{n.smoking}}</td>
+      <td>{{n.drink}}</td>
+      <td>{{n.vegnonveg}}</td>
+      <td>{{n.washingmachine}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<hr>
+{% endif %}
+{% if id == 2 %}
+<hr>
+<form action="/addpg/" method="POST" style="border:1px solid #ccc">
+    {% csrf_token %}
+    <div class="contain">
+	<center><h1>Create PG<h1><center>
+    <p>Please fill in this form to create new PG.</p>
+	<hr>
+  <div class="form-control">
+    </br></br>
+	<label for="lname">User Name:-</label>
+    <input type="text"  name="owner" value="{{user.username}}" required readonly>
+    	<label for="lname">Phone No:-</label>
+    <input type="text"  name="phoneno" value="{{user.userprofile.phoneno}}" required readonly>
+      <label for="lname">Personal email:-</label>
+    <input type="text"  name="pemail" value="{{user.userprofile.pemail}}" required readonly>
+    <label for="lname">Unique Id:-</label>
+    <input type="text"  name="uid" required>
+    <label for="lname">PG Address:-</label>
+    <input type="text"  name="address" required>
+    <label for="lname">PG City:-</label>
+    <input type="text"  name="city" required>
+    <label for="lname">PG Taluka:-</label>
+    <input type="text"  name="taluka" required>
+    <label for="lname">PG District:-</label>
+    <input type="text"  name="district" required>
+    <label for="lname">PG State:-</label>
+    <input type="text"  name="state" required>
+    <label for="sup">PG Pincode :-</label>
+    <input type="text"  name="pincode"  required>
+    <label for="lname">Description:-</label>
+    <input type="text"  name="desc" required>
+    <label for="lname">Pictures and Video Link:-</label>
+    <input type="text"  name="link" required>
+    <label for="lname">Size of flat:-</label>
+    <select id="id" name="bhk" required>
+        <option value="1r">single room</option>
+        <option value="1rk">1 RK</option>
+        <option value="1bhk">1 BHK</option>
+        <option value="2bhk">2 BHK</option>
+        <option value="3bhk">3 BHK</option>
+        <option value="4bhk">4 BHK</option>
+        <option value="5bhk">5 BHK</option> 
+      </select>
+    <label for="lname">No. of people allowed:-</label>
+    <input type="text"  name="nopeople" required>
+    <label for="lname">No. of vacancies:-</label>
+    <input type="text"  name="vacancies" required>
+    <label for="lname">PG Furnishment status:-</label>
+    <select id="id" name="furnished" required>
+      <option value="full">Fully Furnished</option>
+      <option value="semi">Semi Furnished</option>
+      <option value="not">Not Furnished</option> 
+    </select>
+    <label for="lname">PG FAccomodation status:-</label>
+    <select id="id" name="accomodation" required>
+      <option value="women">Only for Women</option>
+      <option value="men">Only for Men</option>
+      <option value="unisex">Unisex</option> 
+    </select>
+    <label for="lname">PG bachelor allowance:-</label>
+    <select id="id" name="bachelor" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">AC present:-</label>
+    <select id="id" name="ac" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">Geyser Present?:-</label>
+    <select id="id" name="geyser" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">PG smoking allowance:-</label>
+    <select id="id" name="smoking" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">PG drink allowance:-</label>
+    <select id="id" name="drink" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">PG food allowance:-</label>
+    <select id="id" name="vegnonveg" required>
+      <option value="veg">Pure Veg</option>
+      <option value="vegan">Vegan</option>
+      <option value="nonveg">Veg/Non-veg Both</option> 
+    </select>
+    <label for="lname">Washing Machine Present?:-</label>
+    <select id="id" name="washingmachine" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+{% for message in messages %}
+	<h6>{{message}}</h6>
+	{% endfor %}
+
+<div class="clearfix">
+      <button type="reset" class="cancelbtn" id="">Reset</button>
+      <button type="submit" class="signupbtn">Save</button>
+    </div>
+</form>
+
+<hr>
+{% endif %}
+{% if id == 3 %}
+<hr>
+<form action="/uppg/" method="POST" style="border:1px solid #ccc">
+    {% csrf_token %}
+    <div class="contain">
+	<center><h1>Update PG<h1><center>
+    <p>Please fill in this form to update PG.</p>
+	<hr>
+  <div class="form-control">
+    </br></br>
+    <label for="lname">Unique Id:-</label>
+    <select>
+    {% for n in n %}
+    <option value="{{n.uid}}">{{n.uid}}</option>
+    {% endfor %}
+    </select>
+	<label for="lname">User Name:-</label>
+    <input type="text"  name="owner" value="{{user.username}}" required readonly>
+    	<label for="lname">Phone No:-</label>
+    <input type="text"  name="phoneno" value="{{user.userprofile.phoneno}}" required readonly>
+      <label for="lname">Personal email:-</label>
+    <input type="text"  name="pemail" value="{{user.userprofile.pemail}}" required readonly>
+    <label for="lname">PG Address:-</label>
+    <input type="text"  name="address" required>
+    <label for="lname">PG City:-</label>
+    <input type="text"  name="city" required>
+    <label for="lname">PG Taluka:-</label>
+    <input type="text"  name="taluka" required>
+    <label for="lname">PG District:-</label>
+    <input type="text"  name="district" required>
+    <label for="lname">PG State:-</label>
+    <input type="text"  name="state" required>
+    <label for="sup">PG Pincode :-</label>
+    <input type="text"  name="pincode"  required>
+    <label for="lname">Description:-</label>
+    <input type="text"  name="desc" required>
+    <label for="lname">Pictures and Video Link:-</label>
+    <input type="text"  name="link" required>
+    <label for="lname">Size of flat:-</label>
+    <select id="id" name="bhk" required>
+        <option value="1r">single room</option>
+        <option value="1rk">1 RK</option>
+        <option value="1bhk">1 BHK</option>
+        <option value="2bhk">2 BHK</option>
+        <option value="3bhk">3 BHK</option>
+        <option value="4bhk">4 BHK</option>
+        <option value="5bhk">5 BHK</option> 
+      </select>
+    <label for="lname">No. of people allowed:-</label>
+    <input type="text"  name="nopeople" required>
+    <label for="lname">No. of vacancies:-</label>
+    <input type="text"  name="vacancies" required>
+    <label for="lname">PG Furnishment status:-</label>
+    <select id="id" name="furnished" required>
+      <option value="full">Fully Furnished</option>
+      <option value="semi">Semi Furnished</option>
+      <option value="not">Not Furnished</option> 
+    </select>
+    <label for="lname">PG FAccomodation status:-</label>
+    <select id="id" name="accomodation" required>
+      <option value="women">Only for Women</option>
+      <option value="men">Only for Men</option>
+      <option value="unisex">Unisex</option> 
+    </select>
+    <label for="lname">PG bachelor allowance:-</label>
+    <select id="id" name="bachelor" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">AC present:-</label>
+    <select id="id" name="ac" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">Geyser Present?:-</label>
+    <select id="id" name="geyser" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">PG smoking allowance:-</label>
+    <select id="id" name="smoking" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">PG drink allowance:-</label>
+    <select id="id" name="drink" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+    <label for="lname">PG food allowance:-</label>
+    <select id="id" name="vegnonveg" required>
+      <option value="veg">Pure Veg</option>
+      <option value="vegan">Vegan</option>
+      <option value="nonveg">Veg/Non-veg Both</option> 
+    </select>
+    <label for="lname">Washing Machine Present?:-</label>
+    <select id="id" name="washingmachine" required>
+      <option value="yes">Yes</option>
+      <option value="no">No</option> 
+    </select>
+{% for message in messages %}
+	<h6>{{message}}</h6>
+	{% endfor %}
+
+<div class="clearfix">
+      <button type="reset" class="cancelbtn" id="">Reset</button>
+      <button type="submit" class="signupbtn">update</button>
+    </div>
+</form>
+
+<hr>
+{% endif %}
+{% if id == 4 %}
+<hr>
+<form action="/delpg/" method="POST" style="border:1px solid #ccc">
+    {% csrf_token %}
+    <div class="contain">
+	<center><h1>Delete PG<h1><center>
+    <p>Please fill in this form to Delete PG data.</p>
+	<hr>
+  <div class="form-control">
+    <br><br><br>
+    	<label for="id">Choose PG Unique ID option:</label>
+<select id="id" name="id">
+{% for n in n %}
+  <option value="{{n.uid}}">{{n.uid}}</option>
+ {% endfor %} 
+</select>
+<br><br><br>
+	
+{% for message in messages %}
+	<h6>{{message}}</h6>
+	{% endfor %}
+
+<div class="clearfix">
+      <button type="reset" class="cancelbtn" id="">Reset</button>
+      <button type="submit" class="signupbtn">Delete</button>
+    </div>
+</form>
+
+<hr>
+{% endif %}
+{% else %}
+<center> <h1>Login First:-<a href="/login/">Login</a></h1></center>
+{% endif %}
+
+        <div class="footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3"><div class="site-logo">
+            <a href="/home/" class="d-block">
+            PGmanager
+            </a>
+          </div>
+                <p>We provide great PG services to our clients.</p>
+              </div>
+              <div class="col-lg-3">
+                <h3 class="footer-heading"><span>Solutions</span></h3>
+                <ul class="list-unstyled">
+                  <li><a href="/home/">Home</a></li>
+                  <li><a href="/about/">About</a></li>
+                  {% if user.is_authenticated %}
+                  <li><a href="/profile/">Profile</a></li>
+                  <li><a href="/logout/">Logout</a></li>
+                  {% else %}
+                  <li><a href="/signup/">Signup</a></li>
+                  <li><a href="/login/">Login</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+              <div class="col-lg-3">
+                <h3 class="footer-heading"><span>Services</span></h3>
+                <ul class="list-unstyled">
+                  <li><a href="/listpg/">List your PG</a></li>
+                  <li><a href="/rentpg/">Rent PG</a></li>
+                  <li><a href="/crudadv/">CRUD Advertisements</a></li>
+                  <li><a href="/crudblog/">CRUD Blogs</a></li>
+                </ul>
+              </div>
+              <div class="col-lg-3">
+                <h3 class="footer-heading"><span>Contact</span></h3>
+                <ul class="list-unstyled">
+                  <li><a href="/contactus/">Contact US</a></li>
+                  <li><a href="/testimonials/">Testimonials</a></li>
+                  <li><a href="/blogadv/">Advertisements</a></li>
+                  <li><a href="/blogadv/">Blogs</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="copyright">
+                  <p>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Website is developed <i class="icon-heart text-danger" aria-hidden="true"></i> by Nikhil, Samartha, Ayush.
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <!-- .site-wrap -->
+
+
+      <!-- loader -->
+      {% comment %} <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div> {% endcomment %}
+
+      <script src="{%static 'js/jquery-3.3.1.min.js' %}"></script>
+      <script src="{%static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+      <script src="{%static 'js/jquery-ui.js' %}"></script>
+      <script src="{%static 'js/popper.min.js' %}"></script>
+      <script src="{%static 'js/bootstrap.min.js' %}"></script>
+      <script src="{%static 'js/owl.carousel.min.js' %}"></script>
+      <script src="{%static 'js/jquery.stellar.min.js' %}"></script>
+      <script src="{%static 'js/jquery.countdown.min.js' %}"></script>
+      <script src="{%static 'js/bootstrap-datepicker.min.js' %}"></script>
+      <script src="{%static 'js/jquery.easing.1.3.js' %}"></script>
+      <script src="{%static 'js/aos.js' %}"></script>
+      <script src="{%static 'js/jquery.fancybox.min.js' %}"></script>
+      <script src="{%static 'js/jquery.sticky.js' %}"></script>
+      <script src="{%static 'js/jquery.mb.YTPlayer.min.js' %}"></script>
+
+
+
+
+      <script src="{%static 'js/main.js' %}"></script>
+
+    </body>
+
+    </html>
